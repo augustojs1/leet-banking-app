@@ -3,6 +3,7 @@ import * as style from "./styles";
 import closeIcon from "../../assets/close.svg";
 import incomeIcon from "../../assets/income.svg";
 import expenseIcon from "../../assets/outcome.svg";
+import { useState } from "react";
 
 interface TransactionModalProps {
   isOpen: boolean;
@@ -10,6 +11,16 @@ interface TransactionModalProps {
 }
 
 export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
+  const [transactionType, setTransactionType] = useState("income");
+
+  function handleTypeButton(transactionType: string) {
+    setTransactionType(transactionType);
+  }
+
+  function handleCreateTransaction() {
+    //
+  }
+
   return (
     <Modal
       isOpen={isOpen}
@@ -26,14 +37,22 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
         <input type="text" placeholder="Title" />
         <input type="number" placeholder="Ammount" />
         <style.transactionType>
-          <button type="button">
+          <style.transationTypeButton
+            type="button"
+            onClick={() => handleTypeButton("income")}
+            selected={transactionType === "income"}
+          >
             <img src={incomeIcon} alt="Income" />
             <span>Income</span>
-          </button>
-          <button type="button">
+          </style.transationTypeButton>
+          <style.transationTypeButton
+            type="button"
+            onClick={() => handleTypeButton("expense")}
+            selected={transactionType === "expense"}
+          >
             <img src={expenseIcon} alt="Expense" />
             <span>Expense</span>
-          </button>
+          </style.transationTypeButton>
         </style.transactionType>
         <input type="text" placeholder="Category" />
         <button type="submit">Register</button>

@@ -1,6 +1,10 @@
 import styled from "styled-components";
 import { theme } from "../../styles/theme";
 
+interface TransactionTypeButtonProps {
+  selected: boolean;
+}
+
 export const form = styled.form`
   h2 {
     margin-bottom: 2rem;
@@ -61,32 +65,34 @@ export const transactionType = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
+`;
 
-  button {
-    height: 4rem;
+export const transationTypeButton = styled.button<TransactionTypeButtonProps>`
+  height: 4rem;
 
-    background-color: transparent;
+  background-color: ${(props) =>
+    props.selected ? theme.white : "transparent"};
 
-    border: 1px solid #d7d7d7;
-    border-radius: 0.25rem;
+  border: ${(props) =>
+    props.selected ? `2px solid ${theme.bodyText}` : "1px solid #d7d7d7"};
+  border-radius: 0.25rem;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    img {
-      width: 20px;
-      height: 20px;
-    }
+  img {
+    width: 20px;
+    height: 20px;
+  }
 
-    span {
-      display: inline-block;
-      margin-left: 1rem;
-      color: ${theme.titleText};
-    }
+  span {
+    display: inline-block;
+    margin-left: 1rem;
+    color: ${theme.titleText};
+  }
 
-    &:hover {
-      border-color: #aaa;
-    }
+  &:hover {
+    border-color: #aaa;
   }
 `;
