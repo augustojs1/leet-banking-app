@@ -6,4 +6,5 @@ export const theme = {
   titleText: "#363f5f",
   bodyText: "#969cb3",
   white: "#ffff",
+  green: "#33CC95",
 };
