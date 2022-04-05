@@ -1,12 +1,20 @@
+import { useState } from "react";
 import { Logo } from "../shared/Logo";
+import Modal from "react-modal";
 import * as style from "./styles";
 
-export function Header() {
+interface HeaderProps {
+  onOpenTransactionModal: () => void;
+}
+
+export function Header({ onOpenTransactionModal }: HeaderProps) {
   return (
     <style.background>
       <style.container>
         <Logo />
-        <button type="button">New Transaction</button>
+        <button type="button" onClick={onOpenTransactionModal}>
+          New Transaction
+        </button>
       </style.container>
     </style.background>
   );
