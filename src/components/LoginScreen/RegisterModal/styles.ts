@@ -2,16 +2,6 @@ import styled from "styled-components";
 import { theme } from "../../../styles/theme";
 
 export const form = styled.form`
-  max-width: 35rem;
-
-  margin: 0 auto;
-  margin-top: 2rem;
-  padding: 3rem;
-
-  border-radius: 4px;
-
-  background-color: ${theme.white};
-
   h2 {
     margin-bottom: 2rem;
 
