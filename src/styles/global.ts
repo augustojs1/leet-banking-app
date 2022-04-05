@@ -41,4 +41,47 @@ export const GlobalStyle = createGlobalStyle`
     opacity: 0.6;
     cursor: not-allowed;
   }
+
+  .react-modal-overlay {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    position: fixed;
+
+    background-color: rgba(0, 0, 0, 0.5);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .react-modal-content {
+    width: 100%;
+    max-width: 36.25rem;
+
+    position: relative;
+    padding: 3rem;
+
+    background-color: ${theme.background};
+
+    border-radius: 0.25rem;
+  }
+
+  .close-modal {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    
+    background-color: transparent;
+
+    border: 0;
+
+    transition: filter(0.2s);
+
+    &:hover {
+      filter: brightness(0.8s);
+    }
+  }
 `;
