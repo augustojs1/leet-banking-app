@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { api } from "../services/api";
 
 interface User {
@@ -52,13 +53,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function register({ email, name, password }: IRegister) {
     try {
-      const response = await api.post("/authentication/register", {
+      await api.post("/authentication/register", {
         name,
         email,
         password,
       });
+
+      toast.success("Account successfully created!");
     } catch (error: any) {
-      console.log(error?.response?.data?.message);
+      toast.error(`${error?.response?.data?.message}`);
     }
   }
 
@@ -82,9 +85,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
         JSON.stringify({ name, email, balance })
       );
 
+      toast.success(`Successfully login!`);
+
       navigate("/home");
     } catch (error: any) {
-      console.log(error?.response?.data?.message);
+      toast.error(`${error?.response?.data?.message}`);
     }
   }
 
@@ -96,9 +101,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       localStorage.removeItem("leet@user");
 
+      toast.success(`Successfully logout!`);
+
       navigate("/");
     } catch (error: any) {
-      console.log(error?.response?.data?.message);
+      toast.error(`${error?.response?.data?.message}`);
     }
   }
 

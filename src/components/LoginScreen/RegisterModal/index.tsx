@@ -2,6 +2,7 @@ import { FormEvent, useContext, useState } from "react";
 import * as style from "./styles";
 import closeIcon from "../../../assets/close.svg";
 import Modal from "react-modal";
+import { toast } from "react-toastify";
 import { AuthContext } from "../../../context/AuthContext";
 
 interface RegisterModalProps {
@@ -34,13 +35,12 @@ export function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
       repeatPassword,
     };
 
-    console.log(password, repeatPassword);
-
     if (password === repeatPassword) {
+      onClose();
       return await register({ email, name, password });
     }
 
-    console.log("Password should be of equal  value");
+    toast.error("Password and repeat password should be equal");
   }
 
   return (
