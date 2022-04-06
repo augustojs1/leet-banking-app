@@ -54,3 +54,10 @@ export const form = styled.form`
     }
   }
 `;
+
+export const requiredFieldTip = styled.p`
+  margin-top: 1rem;
+
+  font-size: 0.8rem;
+  color: ${theme.bodyText};
+`;

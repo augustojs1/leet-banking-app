@@ -65,19 +65,12 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
         <h2>Register a new transaction</h2>
         <input
           type="text"
-          placeholder="Title"
+          placeholder="Title *"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
         />
-        {/* <input
-          type="number"
-          placeholder="Ammount"
-          value={ammount}
-          onChange={(event) => setAmmount(Number(event.target.value))}
-        /> */}
+
         <CurrencyInput
-          // id="input-example"
-          // name="input-name"
           intlConfig={{ locale: "pt-Br", currency: "BRL" }}
           placeholder="Please enter a number ammount"
           defaultValue={0}
@@ -104,11 +97,15 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
         </style.transactionType>
         <input
           type="text"
-          placeholder="Category"
+          placeholder="Category *"
           value={category}
           onChange={(event) => setCategory(event.target.value)}
         />
-        <button type="submit">Register</button>
+        <style.requiredFieldTip>* Required fields</style.requiredFieldTip>
+
+        <button type="submit" disabled={!category || !title}>
+          Register
+        </button>
       </style.form>
     </Modal>
   );
