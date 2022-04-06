@@ -2,7 +2,7 @@ import * as style from "./styles";
 
 interface StatementCardProps {
   type: "Income" | "Expense" | "Total";
-  ammount: number;
+  ammount: number | undefined;
   iconPath: string;
 }
 

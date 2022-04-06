@@ -24,3 +24,14 @@ export const container = styled.div`
     }
   }
 `;
+
+export const noTransactionsContainer = styled.div`
+  width: 100%;
+
+  text-align: center;
+
+  p {
+    font-size: 1.5rem;
+    color: ${theme.bodyText};
+  }
+`;

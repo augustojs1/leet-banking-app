@@ -5,7 +5,7 @@ interface TransactionItemProps {
   title: string;
   ammount: number;
   category: string;
-  createdAt: string;
+  createdAt: Date;
 }
 
 export function TransactionItem({

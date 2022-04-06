@@ -3,11 +3,12 @@ import { api } from "../services/api";
 import { toast } from "react-toastify";
 
 interface Transaction {
+  _id: string;
   type: "income" | "expense";
   ammount: number;
   category: string;
   title: string;
-  createdAt: Date;
+  created_at: Date;
 }
 
 interface ICreateTransactionData {
@@ -20,17 +21,44 @@ interface ICreateTransactionData {
 interface TransactionContextData {
   createTransaction(transactionData: ICreateTransactionData): Promise<void>;
   getTransactions(): Promise<void>;
-  transactions: Transaction[] | null;
+  transactions: Transaction[];
+  statement: IStatements;
 }
 
 interface TransactionProviderProps {
   children: ReactNode;
 }
 
+interface IStatements {
+  income: number;
+  expense: number;
+  balance: number;
+}
+
 export const TransactionContext = createContext({} as TransactionContextData);
 
 export function TransactionProvider({ children }: TransactionProviderProps) {
-  const [transactions, setTransactions] = useState<Transaction[] | null>(null);
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  // const [statements, setStatements] = useState<IStatements | null>(null);
+
+  const statement: IStatements = transactions.reduce(
+    (acc, transaction) => {
+      if (transaction.type === "income") {
+        acc.income += transaction.ammount;
+        acc.balance += transaction.ammount;
+      } else {
+        acc.expense += transaction.ammount;
+        acc.balance -= transaction.ammount;
+      }
+
+      return acc;
+    },
+    {
+      income: 0,
+      expense: 0,
+      balance: 0,
+    }
+  );
 
   async function createTransaction({
     ammount,
@@ -45,6 +73,8 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
         title,
         type,
       });
+
+      console.log("create transaction", response);
 
       if (transactions) {
         setTransactions([...transactions, response.data]);
@@ -63,8 +93,6 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
       const response = await api.get("/transactions");
 
       setTransactions(response.data);
-
-      toast.success("Transaction successfully created!");
     } catch (error: any) {
       toast.error(`${error?.response?.data?.message}`);
     }
@@ -72,7 +100,7 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
 
   return (
     <TransactionContext.Provider
-      value={{ createTransaction, getTransactions, transactions }}
+      value={{ createTransaction, getTransactions, transactions, statement }}
     >
       {children}
     </TransactionContext.Provider>
