@@ -1,16 +1,30 @@
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./components/Home";
 import { LoginScreen } from "./components/LoginScreen";
+import { AuthProvider } from "./context/AuthContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { GlobalStyle } from "./styles/global";
 
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="/" element={<LoginScreen />} />
-        <Route path="/home" element={<Home />} />
-      </Routes>
-      <GlobalStyle />
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<LoginScreen />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="*" element={<p>There's nothing here: 404!</p>} />
+        </Routes>
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          rtl={false}
+        />
+        <GlobalStyle />
+      </AuthProvider>
     </>
   );
 }

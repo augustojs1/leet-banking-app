@@ -1,7 +1,9 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import * as style from "./styles";
 import closeIcon from "../../../assets/close.svg";
 import Modal from "react-modal";
+import { toast } from "react-toastify";
+import { AuthContext } from "../../../context/AuthContext";
 
 interface RegisterModalProps {
   isOpen: boolean;
@@ -21,7 +23,9 @@ export function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
 
-  function handleRegister(event: FormEvent) {
+  const { register } = useContext(AuthContext);
+
+  async function handleRegister(event: FormEvent) {
     event.preventDefault();
 
     const registerData: IRegisterData = {
@@ -30,6 +34,13 @@ export function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
       password,
       repeatPassword,
     };
+
+    if (password === repeatPassword) {
+      onClose();
+      return await register({ email, name, password });
+    }
+
+    toast.error("Password and repeat password should be equal");
   }
 
   return (

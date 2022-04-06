@@ -32,3 +32,21 @@ export const container = styled.div`
     }
   }
 `;
+
+export const logOutButton = styled.button`
+  color: ${theme.white};
+  background-color: ${theme.lightBlue};
+
+  font-size: 1rem;
+
+  padding: 0rem 0.2rem;
+  height: 3rem;
+  margin-left: 1rem;
+
+  border: 0;
+  border-radius: 0.25rem;
+
+  &:hover {
+    filter: brightness(0.9);
+  }
+`;

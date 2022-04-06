@@ -1,4 +1,5 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
+import { AuthContext } from "../../../context/AuthContext";
 import * as style from "./styles";
 
 interface ILoginData {
@@ -10,15 +11,17 @@ export function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const { login } = useContext(AuthContext);
+
   const loginData: ILoginData = {
     email,
     password,
   };
 
-  function handleLogin(event: FormEvent) {
+  async function handleLogin(event: FormEvent) {
     event.preventDefault();
 
-    console.log("login", loginData);
+    await login(loginData);
   }
 
   return (
