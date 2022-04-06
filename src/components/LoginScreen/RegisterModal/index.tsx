@@ -1,7 +1,8 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import * as style from "./styles";
 import closeIcon from "../../../assets/close.svg";
 import Modal from "react-modal";
+import { AuthContext } from "../../../context/AuthContext";
 
 interface RegisterModalProps {
   isOpen: boolean;
@@ -21,7 +22,9 @@ export function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
 
-  function handleRegister(event: FormEvent) {
+  const { register } = useContext(AuthContext);
+
+  async function handleRegister(event: FormEvent) {
     event.preventDefault();
 
     const registerData: IRegisterData = {
@@ -30,6 +33,14 @@ export function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
       password,
       repeatPassword,
     };
+
+    console.log(password, repeatPassword);
+
+    if (password === repeatPassword) {
+      return await register({ email, name, password });
+    }
+
+    console.log("Password should be of equal  value");
   }
 
   return (
