@@ -1,7 +1,8 @@
+import { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Home } from "./components/Home";
 import { LoginScreen } from "./components/LoginScreen";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthContext, AuthProvider } from "./context/AuthContext";
 import { GlobalStyle } from "./styles/global";
 
 function App() {

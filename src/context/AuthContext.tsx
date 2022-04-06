@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
 
@@ -23,7 +23,7 @@ interface AuthContextData {
   login(credentials: ICredentials): Promise<void>;
   logout(): Promise<void>;
   register(registerData: IRegister): Promise<void>;
-  isAuthenticated: boolean;
+  user: User | null;
 }
 
 interface AuthProviderProps {
@@ -33,10 +33,22 @@ interface AuthProviderProps {
 export const AuthContext = createContext({} as AuthContextData);
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = useState<User>();
-  const isAuthenticated = false;
+  const [user, setUser] = useState<User | null>(null);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let parsedUser = null;
+    const stringUser = localStorage.getItem("leet@user");
+
+    if (stringUser) {
+      const parsedUser: User = JSON.parse(stringUser);
+      setUser(parsedUser);
+      return navigate("/home");
+    }
+
+    navigate("/");
+  }, [navigate]);
 
   async function register({ email, name, password }: IRegister) {
     try {
@@ -65,6 +77,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
         balance,
       });
 
+      localStorage.setItem(
+        "leet@user",
+        JSON.stringify({ name, email, balance })
+      );
+
       navigate("/home");
     } catch (error: any) {
       console.log(error?.response?.data?.message);
@@ -72,11 +89,21 @@ export function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function logout() {
-    //
+    try {
+      await api.post("/authentication/logout");
+
+      setUser(null);
+
+      localStorage.removeItem("leet@user");
+
+      navigate("/");
+    } catch (error: any) {
+      console.log(error?.response?.data?.message);
+    }
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, register }}>
+    <AuthContext.Provider value={{ user, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );
