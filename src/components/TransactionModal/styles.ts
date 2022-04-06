@@ -96,3 +96,10 @@ export const transationTypeButton = styled.button<TransactionTypeButtonProps>`
     border-color: #aaa;
   }
 `;
+
+export const requiredFieldTip = styled.p`
+  margin-top: 1rem;
+
+  font-size: 0.8rem;
+  color: ${theme.bodyText};
+`;

@@ -49,6 +49,7 @@ export function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
       onRequestClose={onClose}
       overlayClassName="react-modal-overlay"
       className="react-modal-content"
+      ariaHideApp={false}
     >
       <button type="button" onClick={onClose} className="close-modal">
         <img src={closeIcon} alt="Close transaction modal" />
@@ -58,30 +59,36 @@ export function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
         <h2>Register a new account</h2>
         <input
           type="text"
-          placeholder="Name"
+          placeholder="Name *"
           value={name}
           onChange={(event) => setName(event.target.value)}
         />
         <input
           type="text"
-          placeholder="Email"
+          placeholder="Email *"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
         />
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Password *"
           value={password}
           onChange={(event) => setPassword(event.target.value)}
         />
         <input
           type="password"
-          placeholder="Repeat password"
+          placeholder="Repeat password *"
           value={repeatPassword}
           onChange={(event) => setRepeatPassword(event.target.value)}
         />
+        <style.requiredFieldTip>* Required fields</style.requiredFieldTip>
 
-        <button type="submit">Register</button>
+        <button
+          type="submit"
+          disabled={!password || !repeatPassword || !email || !name}
+        >
+          Register
+        </button>
       </style.form>
     </Modal>
   );

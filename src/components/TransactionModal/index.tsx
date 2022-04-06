@@ -3,11 +3,13 @@ import * as style from "./styles";
 import closeIcon from "../../assets/close.svg";
 import incomeIcon from "../../assets/income.svg";
 import expenseIcon from "../../assets/outcome.svg";
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
+import CurrencyInput from "react-currency-input-field";
+import { TransactionContext } from "../../context/TransactionContext";
 
 interface ICreateTransaction {
   title: string;
-  type: string;
+  type: "income" | "expense";
   ammount: number;
   category: string;
 }
@@ -17,6 +19,8 @@ interface TransactionModalProps {
 }
 
 export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
+  const { createTransaction } = useContext(TransactionContext);
+
   const [transactionType, setTransactionType] = useState("income");
 
   const [title, setTitle] = useState("");
@@ -27,17 +31,22 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
     setTransactionType(transactionType);
   }
 
-  function handleCreateTransaction(event: FormEvent) {
+  async function handleCreateTransaction(event: FormEvent) {
     event.preventDefault();
 
     const transactionData: ICreateTransaction = {
       ammount,
       category,
       title,
-      type: transactionType,
+      type: transactionType === "income" ? "income" : "expense",
     };
 
-    console.log("transaction", transactionData);
+    await createTransaction(transactionData);
+
+    setTitle("");
+    setCategory("");
+
+    onClose();
   }
 
   return (
@@ -46,6 +55,7 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
       onRequestClose={onClose}
       overlayClassName="react-modal-overlay"
       className="react-modal-content"
+      ariaHideApp={false}
     >
       <button type="button" onClick={onClose} className="close-modal">
         <img src={closeIcon} alt="Close transaction modal" />
@@ -55,15 +65,17 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
         <h2>Register a new transaction</h2>
         <input
           type="text"
-          placeholder="Title"
+          placeholder="Title *"
           value={title}
           onChange={(event) => setTitle(event.target.value)}
         />
-        <input
-          type="number"
-          placeholder="Ammount"
-          value={ammount}
-          onChange={(event) => setAmmount(Number(event.target.value))}
+
+        <CurrencyInput
+          intlConfig={{ locale: "pt-Br", currency: "BRL" }}
+          placeholder="Please enter a number ammount"
+          defaultValue={0}
+          decimalsLimit={2}
+          onValueChange={(value) => setAmmount(Number(value))}
         />
         <style.transactionType>
           <style.transationTypeButton
@@ -85,11 +97,15 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
         </style.transactionType>
         <input
           type="text"
-          placeholder="Category"
+          placeholder="Category *"
           value={category}
           onChange={(event) => setCategory(event.target.value)}
         />
-        <button type="submit">Register</button>
+        <style.requiredFieldTip>* Required fields</style.requiredFieldTip>
+
+        <button type="submit" disabled={!category || !title}>
+          Register
+        </button>
       </style.form>
     </Modal>
   );
