@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { TransactionContext } from "../../context/TransactionContext";
+import { priceFormatter } from "../../utils/priceFormatter";
 import * as style from "./styles";
 import { TransactionItem } from "./TransactionItem";
 
@@ -30,8 +31,8 @@ export function Transactions() {
                   type={transaction.type}
                   title={transaction.title}
                   category={transaction.category}
-                  ammount={transaction.ammount}
-                  createdAt={transaction.created_at}
+                  ammount={priceFormatter(transaction.ammount)}
+                  createdAt={String(transaction.created_at).split("T")[0]}
                 />
               ))}
           </tbody>

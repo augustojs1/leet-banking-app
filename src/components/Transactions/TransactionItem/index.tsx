@@ -3,9 +3,9 @@ import * as style from "./styles";
 interface TransactionItemProps {
   type: "income" | "expense";
   title: string;
-  ammount: number;
+  ammount: string;
   category: string;
-  createdAt: Date;
+  createdAt: string;
 }
 
 export function TransactionItem({
@@ -18,9 +18,11 @@ export function TransactionItem({
   return (
     <style.container>
       <td>{title}</td>
-      <style.ammountColumn type={type}>R$ {ammount},00</style.ammountColumn>
+      <style.ammountColumn type={type}>{ammount}</style.ammountColumn>
       <td>{category}</td>
-      <td>{createdAt}</td>
+      <td>
+        {new Intl.DateTimeFormat(["ban", "id"]).format(new Date(createdAt))}
+      </td>
     </style.container>
   );
 }

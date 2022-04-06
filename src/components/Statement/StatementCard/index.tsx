@@ -2,7 +2,7 @@ import * as style from "./styles";
 
 interface StatementCardProps {
   type: "Income" | "Expense" | "Total";
-  ammount: number | undefined;
+  ammount: string | undefined;
   iconPath: string;
 }
 
@@ -14,7 +14,7 @@ export function StatementCard({ type, iconPath, ammount }: StatementCardProps) {
           <p>{type}</p>
           <img src={iconPath} alt="Income" />
         </header>
-        <strong>R$ ${ammount},00</strong>
+        <strong>{ammount}</strong>
       </div>
     </style.container>
   );

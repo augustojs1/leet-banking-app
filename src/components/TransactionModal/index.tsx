@@ -4,6 +4,7 @@ import closeIcon from "../../assets/close.svg";
 import incomeIcon from "../../assets/income.svg";
 import expenseIcon from "../../assets/outcome.svg";
 import { FormEvent, useContext, useState } from "react";
+import CurrencyInput from "react-currency-input-field";
 import { TransactionContext } from "../../context/TransactionContext";
 
 interface ICreateTransaction {
@@ -41,6 +42,11 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
     };
 
     await createTransaction(transactionData);
+
+    setTitle("");
+    setCategory("");
+
+    onClose();
   }
 
   return (
@@ -49,6 +55,7 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
       onRequestClose={onClose}
       overlayClassName="react-modal-overlay"
       className="react-modal-content"
+      ariaHideApp={false}
     >
       <button type="button" onClick={onClose} className="close-modal">
         <img src={closeIcon} alt="Close transaction modal" />
@@ -62,11 +69,20 @@ export function TransactionModal({ isOpen, onClose }: TransactionModalProps) {
           value={title}
           onChange={(event) => setTitle(event.target.value)}
         />
-        <input
+        {/* <input
           type="number"
           placeholder="Ammount"
           value={ammount}
           onChange={(event) => setAmmount(Number(event.target.value))}
+        /> */}
+        <CurrencyInput
+          // id="input-example"
+          // name="input-name"
+          intlConfig={{ locale: "pt-Br", currency: "BRL" }}
+          placeholder="Please enter a number ammount"
+          defaultValue={0}
+          decimalsLimit={2}
+          onValueChange={(value) => setAmmount(Number(value))}
         />
         <style.transactionType>
           <style.transationTypeButton

@@ -49,6 +49,7 @@ export function RegisterModal({ isOpen, onClose }: RegisterModalProps) {
       onRequestClose={onClose}
       overlayClassName="react-modal-overlay"
       className="react-modal-content"
+      ariaHideApp={false}
     >
       <button type="button" onClick={onClose} className="close-modal">
         <img src={closeIcon} alt="Close transaction modal" />
