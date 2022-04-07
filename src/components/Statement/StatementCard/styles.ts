@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { theme } from "../../../styles/theme";
+import devices from "../../../utils/devices";
 
 interface ContainerProps {
   type: "Income" | "Expense" | "Total";
@@ -7,6 +8,13 @@ interface ContainerProps {
 
 export const container = styled.div<ContainerProps>`
   padding: 1.5rem 2rem;
+
+  @media ${devices.mobileL} {
+    display: flex;
+    padding: 2rem 5rem;
+
+    margin: 0 auto;
+  }
 
   background-color: ${(props) =>
     props.type === "Total" ? theme.green : theme.white};
