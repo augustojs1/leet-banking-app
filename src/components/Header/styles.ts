@@ -1,8 +1,13 @@
 import styled from "styled-components";
 import { theme } from "../../styles/theme";
+import devices from "../../utils/devices";
 
 export const background = styled.header`
   background: ${theme.blue};
+
+  @media ${devices.mobileL} {
+    width: 100%;
+  }
 `;
 
 export const container = styled.div`
@@ -26,6 +31,13 @@ export const container = styled.div`
 
     border: 0;
     border-radius: 0.25rem;
+
+    @media ${devices.mobileL} {
+      padding: 0rem 1.5rem;
+      height: 2.5rem;
+
+      font-size: 0.8rem;
+    }
 
     &:hover {
       filter: brightness(0.9);
