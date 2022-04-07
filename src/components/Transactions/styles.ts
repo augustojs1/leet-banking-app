@@ -1,7 +1,18 @@
 import styled from "styled-components";
 import { theme } from "../../styles/theme";
+import devices from "../../utils/devices";
 
 export const container = styled.div`
+  @media ${devices.mobileL} {
+    margin-top: 2rem;
+
+    table {
+      th {
+        display: none;
+      }
+    }
+  }
+
   margin-top: 4rem;
 
   table {
